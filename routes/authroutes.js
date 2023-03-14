@@ -18,7 +18,7 @@ authController.post("/signup",async (req, res) => {
         return res.status(501).send("User already present please use different userid!");
     }
     
-        await bcrypt.hash(password, 6, async function(err, hash) {
+        await bcrypt.hash(password, 9, async function(err, hash) {
             if(err){
                 return res.status(500).send("Password Error, Please try again...")
             }
@@ -45,25 +45,25 @@ authController.post("/signup",async (req, res) => {
 //for admin login only
 authController.post("/admin", async (req, res) => {
     const {email, password} = req.body;
-    const user = await AuthModel.findOne({email})
+    const user = await AuthModel.findOne({email:"admin@cms.gov.in"})
   
-    if(!user){
-        return res.status(501).send("Login Failed, User Not Found!");
+    if(user.email !== "admin@cms.gov.in"){
+        return res.status(501).send({message:"Login Failed, User Not Found!",status:501});
     }
     const hash = user.password;
     
     await bcrypt.compare(password, hash, function(err, result) {
        if(err){
-        return res.send("Login Failed, please try again later")
+        return res.send({message:"Login Failed, please try again later",status:501})
     }
 
     if(result){
         const token=jwt.sign({email:user.email,userId:user._id},"shhhhh")
         
-        return res.status(200).send({message:"login succesfully",token:token,data:user})
+        return res.status(200).send({message:"login succesfully",status:200,token:token,userId:user._id})
     }
     else{
-        res.status(401).send("invalid password")
+        res.status(401).send({message:"invalid username or password",status:401})
     }
     });
 })
@@ -75,7 +75,7 @@ authController.post("/login", async (req, res) => {
     const user = await AuthModel.findOne({email})
   
     if(!user){
-        return res.status(501).send("Login Failed, User Not Found!");
+        return res.status(501).send({message:"Login Failed, User Not Found!",status:501});
     }
     const hash = user.password;
     
@@ -87,7 +87,7 @@ authController.post("/login", async (req, res) => {
     if(result){
         const token=jwt.sign({email:user.email,userId:user._id},"shhhhh")
         
-        return res.status(200).send({message:"login succesfully",token:token,data:user})
+        return res.status(200).send({message:"login succesfully",token:token})
     }
     else{
         res.status(401).send("invalid password")

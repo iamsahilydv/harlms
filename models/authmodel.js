@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     fname:{type:String,required : true },
     lname:{type:String,required : true },
     mobile:{type:Number, required:true},
-    alternatemobile:{type:Number, required:true},
+    alternatemobile:{type:Number},
     policerange:{type:String},
     districtofc:{type:String,required:true},
     spname:{type:String},
