@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     policerange:{type:String},
     districtofc:{type:String,required:true},
     spname:{type:String},
+    range:{type:String},
     designation:{type:String},
     policestation:{type:String},
     email : {type : String, required : true},
