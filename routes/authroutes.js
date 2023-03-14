@@ -45,9 +45,16 @@ authController.post("/signup",async (req, res) => {
 //for admin login only
 authController.post("/admin", async (req, res) => {
     const {email, password} = req.body;
-    const user = await AuthModel.findOne({email:"admin@cms.gov.in"})
-  
+    const user = await AuthModel.findOne({email})
+    console.log(user)
+    if(user === null){
+        return res.status(501).send({message:"You are not authorized!",status:501}); 
+    }
     if(user.email !== "admin@cms.gov.in"){
+        return res.status(501).send({message:"You are not authorized!",status:501});
+    }
+  
+    if(!user){
         return res.status(501).send({message:"Login Failed, User Not Found!",status:501});
     }
     const hash = user.password;
@@ -63,7 +70,7 @@ authController.post("/admin", async (req, res) => {
         return res.status(200).send({message:"login succesfully",status:200,token:token,userId:user._id})
     }
     else{
-        res.status(401).send({message:"invalid username or password",status:401})
+        res.status(401).send({message:"invalid username password",status:401})
     }
     });
 })
