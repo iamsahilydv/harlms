@@ -2,8 +2,13 @@ const express=require("express")
 const cors = require('cors')
 
 const connection= require("./config/config")
+
+
 const authController=require("./routes/authroutes")
 const complainController=require("./routes/complainroutes")
+const districtController=require("./routes/districtroutes")
+const rangeController=require("./routes/rangeroutes")
+const policeStationController=require("./routes/policstationroutes")
 
 require('dotenv').config()
 
@@ -13,6 +18,9 @@ app.use(cors())
 
 app.use("/user", authController)
 app.use("/complain", complainController)
+app.use("/district", districtController)
+app.use("/range", rangeController)
+app.use("/policestation", policeStationController)
 
 
 app.get("/",(req,res)=>{

@@ -88,17 +88,18 @@ authController.post("/login", async (req, res) => {
     
     await bcrypt.compare(password, hash, function(err, result) {
        if(err){
-        return res.send("Login Failed, please try again later")
+        return res.status(501).send({message:"You are not authorized!",status:501}); 
     }
 
     if(result){
         const token=jwt.sign({email:user.email,userId:user._id},"shhhhh")
         
-        return res.status(200).send({message:"login succesfully",token:token})
+        return res.status(200).send({status:501,message:"login succesfully",token:token})
     }
     else{
         res.status(401).send("invalid password")
     }
+    
     });
 })
 

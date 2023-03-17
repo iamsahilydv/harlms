@@ -9,7 +9,8 @@ const complainController = express.Router();
 //for all complain creation
 complainController.post("/create",async (req, res) => {
     const {author_id,fname,lname,mobile,alternatemobile,policerange,
-        districtofc,policestation,complainAgainst,complainDetails} = req.body;
+        districtofc,policestation,complainAgainst,
+        complainDetails} = req.body;
 
         //const complain = await complainModel.findOne({email})
 
