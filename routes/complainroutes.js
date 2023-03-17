@@ -8,23 +8,35 @@ const complainController = express.Router();
 
 //for all complain creation
 complainController.post("/create",async (req, res) => {
-    const {author_id,fname,lname,mobile,alternatemobile,policerange,
-        districtofc,policestation,complainAgainst,
-        complainDetails} = req.body;
+    const {author_id,policerange,rangeDistrictName,policestation,
+      phoneNumber,ComplainantName,ComplainantPhoneNumber,alternateNumber,
+      FatherName,Address,Email,State,District,ComplaintCategory,
+      ComplaintShortDescription,SectionsofComplaint,Range,
+      SPName,Status,Markto} = req.body;
 
-        //const complain = await complainModel.findOne({email})
-
+      
             const complain = new complainModel({
             author_id,
-            fname,
-            lname,
-            mobile,
-            alternatemobile,
             policerange,
+            rangeDistrictName,
             policestation,
-            districtofc,
-            complainAgainst,
-            complainDetails
+            phoneNumber,
+            ComplainantName,
+            ComplainantPhoneNumber,
+            alternateNumber,
+            FatherName,
+            Address,
+            Email,
+            State,
+            District,
+            ComplaintCategory,
+            ComplaintShortDescription,
+            SectionsofComplaint,
+            Range,
+            SPName,
+            Status,
+            Markto
+            
           })
             await complain.save();
              return res.status(200).send({ message: "complain register successfull"})

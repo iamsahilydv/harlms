@@ -6,15 +6,30 @@ const complainSchema = new mongoose.Schema({
         ref:"authroute",
         required:true
     },
-    fname:{type:String },
-    lname:{type:String},
-    mobile:{type:Number},
-    alternatemobile:{type:Number},
     policerange:{type:String},
-    districtofc:{type:String},
+    rangeDistrictName:{type:String},
     policestation:{type:String},
-   complainAgainst:{type:String},
-   complainDetails:{type:String} 
+    phoneNumber:{type:Number},
+    ComplainantName :{type:String },
+    ComplainantPhoneNumber:{type:Number},
+    alternateNumber:{type:Number},
+    FatherName :{type:String },
+    Address:{type:String },
+    Email :{type:String },
+    State :{type:String },
+    District :{type:String },
+    ComplaintCategory:{type:String },
+    ComplaintShortDescription:{type:String },
+    SectionsofComplaint:{type:String },
+    Range:{type:String },
+    SPName:{type:String },
+    Status:{type:String },
+    Markto:{type:String},
+    
+
+    //uploadpdfcomplaint
+    //uploadevidence
+   
 },
 { timestamps: true }
 )
