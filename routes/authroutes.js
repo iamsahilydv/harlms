@@ -141,23 +141,23 @@ authController.get("/allio", async (req,res)=>{
 
 //get user by id
 authController.get("/user/:id", async (req,res)=>{
-    const {_id} = req.body;
-    const user = await AuthModel.find({_id})
+    const {id} = req.params._id
+    const user = await AuthModel.find({id})
     res.send(user)
   }) 
 
 //update user by id
 authController.put("/update/:id", async (req,res)=>{
-    const {_id} = req.body;
-    const user = await AuthModel.updateOne({_id})
+    const {id} = req.params.id
+    const user = await AuthModel.updateOne({id})
     res.send(user)
   })  
   
  //delete user by id 
 
  authController.delete("/delete/:id", async (req,res)=>{
-    const {_id} = req.body;
-    const user = await AuthModel.deleteOne({_id})
+    const {id} = req.params._id
+    const user = await AuthModel.deleteOne({id})
     res.send(user)
   }) 
 

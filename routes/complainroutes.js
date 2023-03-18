@@ -50,19 +50,31 @@ complainController.get("/allcomplain", async (req,res)=>{
 
 //get complain by particular user id
 complainController.get("/complainbyuser/:id", async (req,res)=>{
-  const {author_id} = req.body;
-  const complain = await complainModel.find({author_id})
+  const id  = req.params._id
+  const complain = await complainModel.find({id})
   res.send(complain)
 })  
 
 
 //get complain by particular complain id
 complainController.get("/complain/:id", async (req,res)=>{
-  const {_id} = req.body;
-  const complain = await complainModel.find({_id})
+  const id  = req.params._id
+  const complain = await complainModel.find({id})
   res.send(complain)
 }) 
  
+//to update any complain by complain id
+complainController.put("/update/:id", async (req,res)=>{
+  const {id} = req.params._id
+  const complain = await complainModel.findByIdAndUpdate(
+   id = req.params.id,
+    {
+      $set: req.body,
+    },
+    { new: true }
+  );
+  res.status(200).send(complain);
+}) 
 
 
 module.exports=complainController
