@@ -97,7 +97,7 @@ authController.post("/login", async (req, res) => {
         return res.status(200).send({status:501,message:"login succesfully",token:token})
     }
     else{
-        res.status(401).send("invalid password")
+        res.status(401).send({status:401, message:"invalid password"})
     }
     
     });
