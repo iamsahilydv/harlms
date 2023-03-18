@@ -82,38 +82,39 @@ complainController.get("/adgpfilter", async (req,res)=>{
   category,district,range}=req.body;
 
   if(fromDate && toDate && policestation && status && category && district && range){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status} && {ComplaintCategory:category} &&
-      {District:district} && {Range:range}})
+    const complain = await complainModel.find({$and:[ {createdAt:{$gt: fromDate}},{createdAt: { $lt: toDate }},
+       {policestation:policestation},{Status:status} , {ComplaintCategory:category} ,
+      {District:district},{Range:range}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation && status && category && district){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status} && {ComplaintCategory:category} &&
-      {District:district}})
+    const complain = await complainModel.find({$and:[ {createdAt:{$gt: fromDate}},{createdAt: { $lt: toDate }},
+      {policestation:policestation},{Status:status} , {ComplaintCategory:category} ,
+     {District:district}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation && status && category){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status} && {ComplaintCategory:category}})
+    const complain = await complainModel.find({$and:[ {createdAt:{$gt: fromDate}},{createdAt: { $lt: toDate }},
+      {policestation:policestation},{Status:status} , {ComplaintCategory:category}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation && status){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status}})
+    const complain = await complainModel.find({$and:[ {createdAt:{$gt: fromDate}},{createdAt: { $lt: toDate }},
+      {policestation:policestation},{Status:status}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation ){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } && {policestation:policestation}})
+    const complain = await complainModel.find({$and:[ {createdAt:{$gt: fromDate}},{createdAt: { $lt: toDate }},
+      {policestation:policestation}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } })
+    const complain = await complainModel.find({$and:[ {createdAt:{$gt: fromDate}},{createdAt: { $lt: toDate }}]})
   res.send(complain)
   }
 
@@ -130,38 +131,39 @@ complainController.get("/spfilter", async (req,res)=>{
   category,district,policepost}=req.body;
 
   if(fromDate && toDate && policestation && status && category && district && policepost){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status} && {ComplaintCategory:category} &&
-      {District:district} && {Designation:policepost}})
+    const complain = await complainModel.find({ $and:[{createdAt:{$gt: fromDate}}, {createdAt: {$lt: toDate} },
+       {policestation:policestation} , {Status:status} , {ComplaintCategory:category} ,
+      {District:district} , {Designation:policepost}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation && status && category && district){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status} && {ComplaintCategory:category} &&
-      {District:district}})
+    const complain = await complainModel.find({ $and:[{createdAt:{$gt: fromDate}}, {createdAt: {$lt: toDate} },
+      {policestation:policestation} , {Status:status} , {ComplaintCategory:category} ,
+     {District:district}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation && status && category){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status} && {ComplaintCategory:category}})
+    const complain = await complainModel.find({$and:[{createdAt:{$gt: fromDate}}, {createdAt: {$lt: toDate} },
+      {policestation:policestation} , {Status:status} , {ComplaintCategory:category}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation && status){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status}})
+    const complain = await complainModel.find({ $and:[{createdAt:{$gt: fromDate}}, {createdAt: {$lt: toDate} },
+      {policestation:policestation} , {Status:status}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation ){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } && {policestation:policestation}})
+    const complain = await complainModel.find({ $and:[{createdAt:{$gt: fromDate}}, {createdAt: {$lt: toDate} },
+      {policestation:policestation} ]})
   res.send(complain)
   }
 
   else if(fromDate && toDate){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } })
+    const complain = await complainModel.find({$and:[{createdAt:{$gt: fromDate}}, {createdAt: {$lt: toDate} }]})
   res.send(complain)
   }
 
@@ -178,30 +180,31 @@ complainController.get("/dspfilter", async (req,res)=>{
   category,policepost}=req.body;
 
   if(fromDate && toDate && policestation && status && category && policepost){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status} && {ComplaintCategory:category} && {Designation:policepost}})
+    const complain = await complainModel.find({ $and :[{createdAt:{$gt: fromDate}}, { createdAt: {$lt: toDate} } ,
+       {policestation:policestation} , {Status:status} , {ComplaintCategory:category} , {Designation:policepost}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation && status && category){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status} && {ComplaintCategory:category}})
+    const complain = await complainModel.find({ $and :[{createdAt:{$gt: fromDate}}, { createdAt: {$lt: toDate} } ,
+      {policestation:policestation} , {Status:status} , {ComplaintCategory:category} ]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation && status){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-       {policestation:policestation} && {Status:status}})
+    const complain = await complainModel.find({ $and :[{createdAt:{$gt: fromDate}}, { createdAt: {$lt: toDate} } ,
+      {policestation:policestation} , {Status:status}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && policestation ){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } && {policestation:policestation}})
+    const complain = await complainModel.find({ $and :[{createdAt:{$gt: fromDate}}, { createdAt: {$lt: toDate} } ,
+      {policestation:policestation}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } })
+    const complain = await complainModel.find({ $and :[{createdAt:{$gt: fromDate}}, { createdAt: {$lt: toDate} }] })
   res.send(complain)
   }
 
@@ -219,30 +222,31 @@ complainController.get("/shofilter", async (req,res)=>{
   category,policepost,io,fir}=req.body;
 
   if(fromDate && toDate && status && category && policepost){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-     {Status:status} && {ComplaintCategory:category} && {Designation:policepost} && {Markto:io}})
+    const complain = await complainModel.find({ $and:[{createdAt:{$gt: fromDate}}, { createdAt: {$lt: toDate} } ,
+     {Status:status} , {ComplaintCategory:category} , {Designation:policepost} , {Markto:io}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && status && category && policepost){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-     {Status:status} && {ComplaintCategory:category} && {Designation:policepost}})
+    const complain = await complainModel.find({ $and:[{createdAt:{$gt: fromDate}}, { createdAt: {$lt: toDate} } ,
+      {Status:status} , {ComplaintCategory:category} , {Designation:policepost}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate && status && category){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } &&
-     {Status:status} && {ComplaintCategory:category}})
+    const complain = await complainModel.find({ $and:[{createdAt:{$gt: fromDate}}, { createdAt: {$lt: toDate} } ,
+      {Status:status} , {ComplaintCategory:category}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate  && status){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } && {Status:status}})
+    const complain = await complainModel.find({ $and:[{createdAt:{$gt: fromDate}}, { createdAt: {$lt: toDate} } ,
+      {Status:status}]})
   res.send(complain)
   }
 
   else if(fromDate && toDate){
-    const complain = await complainModel.find({ createdAt: { $gt: fromDate, $lt: toDate } })
+    const complain = await complainModel.find({ $and:[{createdAt:{$gt: fromDate}}, { createdAt: {$lt: toDate} }] })
   res.send(complain)
   }
 
