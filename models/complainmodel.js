@@ -6,6 +6,7 @@ const complainSchema = new mongoose.Schema({
         ref:"authroute",
         required:true
     },
+    Designation:{type:String},
     policerange:{type:String},
     rangeDistrictName:{type:String},
     policestation:{type:String},
