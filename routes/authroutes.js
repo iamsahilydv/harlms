@@ -46,7 +46,7 @@ authController.post("/signup",async (req, res) => {
 authController.post("/admin", async (req, res) => {
     const {email, password} = req.body;
     const user = await AuthModel.findOne({email})
-    console.log(user)
+    // console.log(user)
     if(user === null){
         return res.status(501).send({message:"You are not authorized!",status:501}); 
     }

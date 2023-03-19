@@ -16,6 +16,7 @@ const complainSchema = new mongoose.Schema({
     alternateNumber:{type:Number},
     FatherName :{type:String },
     Address:{type:String },
+    AddressLine1:{type:String },
     Email :{type:String },
     State :{type:String },
     District :{type:String },
@@ -26,6 +27,7 @@ const complainSchema = new mongoose.Schema({
     SPName:{type:String },
     Status:{type:String },
     Markto:{type:String},
+
     
 
     //uploadpdfcomplaint

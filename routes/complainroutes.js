@@ -12,7 +12,7 @@ complainController.post("/create",async (req, res) => {
       phoneNumber,ComplainantName,ComplainantPhoneNumber,alternateNumber,
       FatherName,Address,Email,State,District,ComplaintCategory,
       ComplaintShortDescription,SectionsofComplaint,Range,
-      SPName,Status,Markto} = req.body;
+      SPName,Status,Markto,AddressLine1} = req.body;
 
       
             const complain = new complainModel({
@@ -26,6 +26,7 @@ complainController.post("/create",async (req, res) => {
             alternateNumber,
             FatherName,
             Address,
+            AddressLine1,
             Email,
             State,
             District,
