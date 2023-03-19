@@ -27,6 +27,8 @@ const complainSchema = new mongoose.Schema({
     SPName:{type:String },
     Status:{type:String },
     Markto:{type:String},
+    Date:{type:String},
+    Issuedate:{type:String}
 
     
 

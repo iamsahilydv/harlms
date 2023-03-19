@@ -94,7 +94,7 @@ authController.post("/login", async (req, res) => {
     if(result){
         const token=jwt.sign({email:user.email,userId:user._id},"shhhhh")
         
-        return res.status(200).send({status:501,message:"login succesfully",token:token})
+        return res.status(200).send({status:200,message:"login succesfully",token:token})
     }
     else{
         res.status(401).send({status:401, message:"invalid password"})
@@ -140,27 +140,28 @@ authController.get("/allio", async (req,res)=>{
 })
 
 //get user by id
-authController.get("/user", async (req,res)=>{
-    const {id} = req.body;
-    // const {id} = req.params._id
-    const user = await AuthModel.find({_id:id})
+authController.get("/user/:id", async (req,res)=>{
+    // const {id} = req.body;
+     const id = req.params.id
+     console.log(id)
+    const user = await AuthModel.findById(id)
     res.send(user)
   }) 
 
 //update user by id
 authController.put("/update/:id", async (req,res)=>{
-    // const {id} = req.params.id
-    const {id} = req.body;
-    const user = await AuthModel.updateOne({_id:id})
+    const id = req.params.id
+    //const {id} = req.body;
+    const user = await AuthModel.findByIdAndUpdate(id)
     res.send(user)
   })  
   
  //delete user by id 
 
  authController.delete("/delete/:id", async (req,res)=>{
-    // const {id} = req.params._id
-    const {id} = req.body;
-    const user = await AuthModel.deleteOne({_id:id})
+     const id = req.params.id
+    //const {id} = req.body;
+    const user = await AuthModel.findByIdAndRemove(id)
     res.send(user)
   }) 
 
