@@ -143,7 +143,7 @@ authController.get("/allio", async (req,res)=>{
 authController.get("/user/:id", async (req,res)=>{
     const {id} = req.body;
     // const {id} = req.params._id
-    const user = await AuthModel.find({id})
+    const user = await AuthModel.find({_id:id})
     res.send(user)
   }) 
 
