@@ -17,7 +17,8 @@ policeStationController.post("/addPolicestation", async(req,res)=>{
     const station = new policeStationModel({
          policeStationName,
          phoneNumber,
-         emailAddress
+         policeStationDistrict,
+         policeStationRange
     })
     
     await station.save();
