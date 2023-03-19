@@ -140,7 +140,7 @@ authController.get("/allio", async (req,res)=>{
 })
 
 //get user by id
-authController.get("/user/:id", async (req,res)=>{
+authController.get("/user", async (req,res)=>{
     const {id} = req.body;
     // const {id} = req.params._id
     const user = await AuthModel.find({_id:id})
@@ -151,7 +151,7 @@ authController.get("/user/:id", async (req,res)=>{
 authController.put("/update/:id", async (req,res)=>{
     // const {id} = req.params.id
     const {id} = req.body;
-    const user = await AuthModel.updateOne({id})
+    const user = await AuthModel.updateOne({_id:id})
     res.send(user)
   })  
   
@@ -160,7 +160,7 @@ authController.put("/update/:id", async (req,res)=>{
  authController.delete("/delete/:id", async (req,res)=>{
     // const {id} = req.params._id
     const {id} = req.body;
-    const user = await AuthModel.deleteOne({id})
+    const user = await AuthModel.deleteOne({_id:id})
     res.send(user)
   }) 
 
