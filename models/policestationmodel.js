@@ -6,7 +6,7 @@ const policeStationSchema = new mongoose.Schema({
   policeStationDistrict: { type: String },
   email: { type: String },
   policeStationRange: { type: String },
-  status: { type: Boolean },
+  Status: { type: Boolean },
 });
 
 const policeStationModel = mongoose.model("policeStation", policeStationSchema);
