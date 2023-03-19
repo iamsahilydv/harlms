@@ -10,7 +10,7 @@ const complainController = express.Router();
 complainController.post("/create",async (req, res) => {
     const {author_id,policerange,rangeDistrictName,policestation,
       phoneNumber,ComplainantName,ComplainantPhoneNumber,alternateNumber,
-      FatherName,Address,Email,State,District,ComplaintCategory,
+      FatherName,Address,Email,State,City,ComplaintCategory,
       ComplaintShortDescription,SectionsofComplaint,Range,
       SPName,Status,Markto,AddressLine1} = req.body;
 
@@ -29,7 +29,7 @@ complainController.post("/create",async (req, res) => {
             AddressLine1,
             Email,
             State,
-            District,
+            City,
             ComplaintCategory,
             ComplaintShortDescription,
             SectionsofComplaint,

@@ -19,7 +19,7 @@ const complainSchema = new mongoose.Schema({
     AddressLine1:{type:String },
     Email :{type:String },
     State :{type:String },
-    District :{type:String },
+    City :{type:String },
     ComplaintCategory:{type:String },
     ComplaintShortDescription:{type:String },
     SectionsofComplaint:{type:String },
