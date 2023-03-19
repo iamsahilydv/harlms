@@ -6,7 +6,7 @@ const policeStationModel=require("../models/policestationmodel")
 const policeStationController=express.Router()
 
 policeStationController.post("/addPolicestation", async(req,res)=>{
-    const {policeStationName,phoneNumber,emailAddress}=req.body;
+    const {policeStationName,phoneNumber,policeStationDistrict,policeStationRange}=req.body;
     
     const pol = await policeStationModel.findOne({policeStationName})
       
