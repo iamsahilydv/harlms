@@ -68,7 +68,7 @@ complainController.get("/complain/:id", async (req,res)=>{
 complainController.put("/update/:id", async (req,res)=>{
   const {id} = req.params._id
   const complain = await complainModel.findByIdAndUpdate(
-   id = req.params.id,
+   id = req.params._id,
     {
       $set: req.body,
     },
