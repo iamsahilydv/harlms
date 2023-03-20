@@ -152,8 +152,12 @@ authController.get("/user/:id", async (req,res)=>{
 authController.put("/update/:id", async (req,res)=>{
     const id = req.params.id
     //const {id} = req.body;
-    const user = await AuthModel.findByIdAndUpdate(id)
-    res.send(user)
+    const user = await AuthModel.findByIdAndUpdate(id,
+        {
+          $set: req.body,
+        },
+        { new: true })
+    res.status(200).send(user)
   })  
   
  //delete user by id 
