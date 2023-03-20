@@ -1,9 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const multer  = require('multer');
+const {GridFsStorage} = require('multer-gridfs-storage');
 
 const complainModel = require("../models/complainmodel");
 
 const complainController = express.Router();
+
+const Storage=multer.diskStorage({
+  destination:"uploads",
+  filename:(req,file,cb)=>{
+    cb(null, file.originalname);
+  }
+})
+
+const upload=multer({
+  storage:Storage
+}).single('testImage')
 
 //for all complain creation
 complainController.post("/create", async (req, res) => {
@@ -34,7 +47,9 @@ complainController.post("/create", async (req, res) => {
     Issuedate,
     trackingId,
     complainDate,
-    targetDate
+    targetDate,
+    uploadevidence,
+    uploadpdfcomplaint
   } = req.body;
 
   const complain = new complainModel({
@@ -64,7 +79,9 @@ complainController.post("/create", async (req, res) => {
     Issuedate,
     trackingId,
     complainDate,
-    targetDate
+    targetDate,
+    uploadevidence,
+    uploadpdfcomplaint
   });
   await complain.save();
   return res.status(200).send({ message: "complain register successfull",complain });

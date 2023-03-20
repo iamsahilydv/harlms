@@ -1,5 +1,8 @@
 const express=require("express")
 const cors = require('cors')
+const mongoose = require("mongoose")
+const bodyparser=require('body-parser')
+
 
 const connection= require("./config/config")
 
@@ -15,6 +18,8 @@ require('dotenv').config()
 const app=express()
 app.use(express.json())
 app.use(cors())
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({extended:false}))
 
 app.use("/user", authController)
 app.use("/complain", complainController)
@@ -29,7 +34,7 @@ app.get("/",(req,res)=>{
 
 app.listen(process.env.PORT,async()=>{
     try{
-        await connection
+        await connection,{useNewUrlParser:true, useUnifiedTopology:true}
         console.log("db connected");
     }
     catch(err){
