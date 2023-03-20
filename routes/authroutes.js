@@ -152,7 +152,7 @@ authController.get("/user/:id", async (req,res)=>{
 authController.put("/update/:id", async (req,res)=>{
     const id = req.params.id
     //const {id} = req.body;
-    const user = await AuthModel.findByIdAndUpdate(id,
+    const user = await AuthModel.findByIdAndUpdate( id = req.params._id,
         {
           $set: req.body,
         },
