@@ -10,6 +10,7 @@ complainController.post("/create", async (req, res) => {
   const {
     author_id,
     policerange,
+    Designation,
     rangeDistrictName,
     policestation,
     phoneNumber,
@@ -31,10 +32,14 @@ complainController.post("/create", async (req, res) => {
     AddressLine1,
     Date,
     Issuedate,
+    trackingId,
+    complainDate,
+    targetDate
   } = req.body;
 
   const complain = new complainModel({
     author_id,
+    Designation,
     policerange,
     rangeDistrictName,
     policestation,
@@ -57,9 +62,12 @@ complainController.post("/create", async (req, res) => {
     Markto,
     Date,
     Issuedate,
+    trackingId,
+    complainDate,
+    targetDate
   });
   await complain.save();
-  return res.status(200).send({ message: "complain register successfull" });
+  return res.status(200).send({ message: "complain register successfull",complain });
 });
 
 //for all user data
@@ -84,9 +92,9 @@ complainController.get("/complain/:id", async (req, res) => {
 
 //to update any complain by complain id
 complainController.put("/update/:id", async (req,res)=>{
-  const {id} = req.params._id
+  const id = req.params.id
   const complain = await complainModel.findByIdAndUpdate(
-   id = req.params._id,
+   id ,
     {
       $set: req.body,
     },

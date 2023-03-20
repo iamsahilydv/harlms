@@ -32,4 +32,16 @@ res.send(district)
 
 })
 
+//update district by id
+districtController.put("/update/:id", async (req,res)=>{
+    const id = req.params.id
+    //const {id} = req.body;
+    const dist = await districtModel.findByIdAndUpdate( id ,
+        {
+          $set: req.body,
+        },
+        { new: true })
+    res.status(200).send(dist)
+  }) 
+
 module.exports=districtController

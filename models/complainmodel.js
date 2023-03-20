@@ -30,6 +30,9 @@ const complainSchema = new mongoose.Schema(
     Markto: { type: String },
     Date: { type: String },
     Issuedate: { type: String },
+    trackingId:{type:String},
+    complainDate:{type:String},
+    targetDate:{type:String},
 
     //uploadpdfcomplaint
     //uploadevidence

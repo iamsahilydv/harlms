@@ -35,12 +35,24 @@ policeStationController.post("/addPolicestation", async (req, res) => {
   await station.save();
   return res
     .status(200)
-    .send({ status: 200, message: "Police station register successfull" });
+    .send({ status: 200, message: "Police station register successfull",station });
 });
 
 policeStationController.get("/getPolicestation", async (req, res) => {
   const policeStation = await policeStationModel.find();
   res.send(policeStation);
 });
+
+//update policeStation by id
+policeStationController.put("/update/:id", async (req,res)=>{
+  const id = req.params.id
+  //const {id} = req.body;
+  const pol = await policeStationModel.findByIdAndUpdate( id ,
+      {
+        $set: req.body,
+      },
+      { new: true })
+  res.status(200).send(pol)
+}) 
 
 module.exports = policeStationController;

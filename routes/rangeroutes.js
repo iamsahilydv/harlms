@@ -24,12 +24,24 @@ rangeController.post("/addRange", async (req, res) => {
   await range.save();
   return res
     .status(200)
-    .send({ status: 200, message: "Range register successfull" });
+    .send({ status: 200, message: "Range register successfull",range });
 });
 
 rangeController.get("/getRange", async (req, res) => {
   const range = await rangeModel.find();
   res.send(range);
 });
+
+//update district by id
+rangeController.put("/update/:id", async (req,res)=>{
+  const id = req.params.id
+  //const {id} = req.body;
+  const rag = await rangeModel.findByIdAndUpdate( id ,
+      {
+        $set: req.body,
+      },
+      { new: true })
+  res.status(200).send(rag)
+}) 
 
 module.exports = rangeController;
