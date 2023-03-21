@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     mobile:{type:Number, required:true},
     alternatemobile:{type:Number},
     policerange:{type:String},
-    districtofc:{type:String,required:true},
+    districtofc:{type:String},
     spname:{type:String},
     range:{type:String},
     designation:{type:String},
