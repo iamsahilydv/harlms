@@ -1,14 +1,28 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const multer = require('multer');
 
 const complainModel = require("../models/complainmodel");
 
 const complainController = express.Router();
 
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+
+var upload = multer({ storage: storage })
+
 //for all complain creation
-complainController.post("/create", async (req, res) => {
+complainController.post("/create",  upload.array('myFiles', 12),async (req, res) => {
   const {
     author_id,
+    uploadpdfcomplaint,
     policerange,
     Designation,
     rangeDistrictName,
@@ -39,6 +53,7 @@ complainController.post("/create", async (req, res) => {
 
   const complain = new complainModel({
     author_id,
+    uploadpdfcomplaint,
     Designation,
     policerange,
     rangeDistrictName,
