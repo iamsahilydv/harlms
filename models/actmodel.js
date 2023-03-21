@@ -1,7 +1,7 @@
 const mongoose=require("mongoose")
 
 const actSchema= new mongoose.Schema({
-   actName:{type:String}
+   actName:[{type:String}]
 })
 
 const actModel=mongoose.model("act",actSchema)

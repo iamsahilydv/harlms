@@ -44,4 +44,14 @@ rangeController.put("/update/:id", async (req,res)=>{
   res.status(200).send(rag)
 }) 
 
+
+//delete user by id 
+
+rangeController.delete("/delete/:id", async (req,res)=>{
+  const id = req.params.id
+ //const {id} = req.body;
+ const rag = await rangeModel.findByIdAndRemove(id)
+ res.send(rag)
+}) 
+
 module.exports = rangeController;

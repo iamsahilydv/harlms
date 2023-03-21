@@ -55,4 +55,14 @@ policeStationController.put("/update/:id", async (req,res)=>{
   res.status(200).send(pol)
 }) 
 
+
+//delete user by id 
+
+policeStationController.delete("/delete/:id", async (req,res)=>{
+  const id = req.params.id
+ //const {id} = req.body;
+ const pol = await policeStationModel.findByIdAndRemove(id)
+ res.send(pol)
+}) 
+
 module.exports = policeStationController;

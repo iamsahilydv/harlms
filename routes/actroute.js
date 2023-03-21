@@ -44,4 +44,13 @@ actController.put("/update/:id", async (req,res)=>{
   res.status(200).send(rag)
 }) 
 
+//delete act by id 
+
+actController.delete("/delete/:id", async (req,res)=>{
+  const id = req.params.id
+ //const {id} = req.body;
+ const act = await actModel.findByIdAndRemove(id)
+ res.send(act)
+}) 
+
 module.exports = actController;

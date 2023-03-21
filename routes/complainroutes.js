@@ -103,6 +103,16 @@ complainController.put("/update/:id", async (req,res)=>{
   res.status(200).send(complain);
 });
 
+
+//delete complain by id 
+
+complainController.delete("/delete/:id", async (req,res)=>{
+  const id = req.params.id
+ //const {id} = req.body;
+ const comp = await complainModel.findByIdAndRemove(id)
+ res.send(comp)
+}) 
+
 // filter for adgp compain dashboard
 complainController.get("/adgpfilter", async (req, res) => {
   const { fromDate, toDate, policestation, status, category, district, range } =
