@@ -7,53 +7,36 @@ const complainModel = require("../models/complainmodel");
 const complainController = express.Router();
 
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-      cb(null, 'uploads')
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public");
   },
-  filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now())
-  }
-})
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split("/")[1];
+    cb(null, `files/admin-${file.fieldname}-${Date.now()}.${ext}`);
+  },
+});
+const upload = multer({
+  storage: multerStorage,
+});
 
-var upload = multer({ storage: storage })
+//var upload = multer({ storage: storage }).single('uploadpdfcomplaint')
 
 //for all complain creation
-complainController.post("/create",  upload.array('myFiles', 12),async (req, res) => {
+complainController.post("/create", upload.single("uploadpdfcomplaint"), async (req, res) => {
+  console.log(req.file.filename)
   const {
-    author_id,
-    uploadpdfcomplaint,
-    policerange,
-    Designation,
-    rangeDistrictName,
-    policestation,
-    phoneNumber,
-    ComplainantName,
-    ComplainantPhoneNumber,
-    alternateNumber,
-    FatherName,
-    Address,
-    Email,
-    State,
-    City,
-    ComplaintCategory,
-    ComplaintShortDescription,
-    SectionsofComplaint,
-    Range,
-    SPName,
-    Status,
-    Markto,
-    AddressLine1,
-    Date,
-    Issuedate,
-    trackingId,
-    complainDate,
-    targetDate
+    author_id, policerange, Designation, rangeDistrictName, policestation, phoneNumber, ComplainantName,
+    ComplainantPhoneNumber, alternateNumber, FatherName, Address, Email, State, City, ComplaintCategory, ComplaintShortDescription,
+     SectionsofComplaint, Range, SPName, Status, Markto, AddressLine1, Date, Issuedate, trackingId, complainDate, targetDate
   } = req.body;
+
+//const {uploadpdfcomplaint}=req.file.filename;
 
   const complain = new complainModel({
     author_id,
-    uploadpdfcomplaint,
+    uploadpdfcomplaint:req.file.filename,
+    uploadevidence:req.file.filename,
     Designation,
     policerange,
     rangeDistrictName,

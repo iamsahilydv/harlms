@@ -1,5 +1,6 @@
 const express = require("express")
 const bcrypt  = require("bcrypt")
+const multer = require('multer');
 
 const jwt = require('jsonwebtoken');
 
@@ -7,8 +8,23 @@ const AuthModel =require("../models/authmodel")
 
 const authController = express.Router();
 
+const multerStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "public");
+    },
+    filename: (req, file, cb) => {
+      const ext = file.mimetype.split("/")[1];
+      cb(null, `uploads/admin-${file.fieldname}-${Date.now()}.${ext}`);
+    },
+  });
+  const upload = multer({
+    storage: multerStorage,
+  });
+
 //for all users creation
-authController.post("/signup",async (req, res) => {
+authController.post("/signup",upload.single("ProfilePhoto"), async (req, res) => {
+   
+    console.log(req.file.filename)
     const {email, password,fname,lname,mobile,alternatemobile,policerange,
         districtofc,spname,designation,policestation,role} = req.body;
 
@@ -25,6 +41,7 @@ authController.post("/signup",async (req, res) => {
             const user = new AuthModel({
                 email,
                 password : hash,
+                ProfilePhoto:req.file.filename,
                 fname,
                 lname,
                 mobile,

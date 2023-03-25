@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     lname:{type:String,required : true },
     mobile:{type:Number, required:true},
     alternatemobile:{type:Number},
+    ProfilePhoto:{type:String},
     policerange:{type:String},
     districtofc:{type:String},
     spname:{type:String},
