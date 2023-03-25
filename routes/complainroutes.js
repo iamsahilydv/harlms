@@ -128,84 +128,89 @@ complainController.delete("/delete/:id", async (req,res)=>{
  res.send(comp)
 }) 
 
+
+
+complainController.get("/adgpfilter1", async (req, res) => {
+   const { createdAt, toDate, policestation,
+     Status, ComplaintCategory, District, Range, rangeDistrictName } =
+     req.query;
+
+      const filter = {}
+      
+         if (ComplaintCategory) {
+          filter.ComplaintCategory = ComplaintCategory
+         }
+        if (District) {
+           filter.District = District
+         }
+         if (Status) {
+          filter.Status = Status
+        }
+         if(rangeDistrictName){
+            filter.rangeDistrictName = rangeDistrictName
+         }
+         if (Range) {
+          filter.Range = Range
+        }
+        if (policestation) {
+          filter.policestation = policestation
+        }
+         if (rangeDistrictName && ComplaintCategory) {
+          filter.rangeDistrictName = rangeDistrictName,
+          filter.ComplaintCategory = ComplaintCategory
+        }  
+
+        const complain = await complainModel.find(filter);
+
+    res.send(complain);
+  })
+
+
 // filter for adgp compain dashboard
 complainController.get("/adgpfilter", async (req, res) => {
-  const { fromDate, toDate, policestation, status, category, district, range } =
-    req.body;
+  // const { createdAt, toDate, policestation, Status, ComplaintCategory, district, Range } =
+  //   req.query;
 
-  if (
-    fromDate &&
-    toDate &&
-    policestation &&
-    status &&
-    category &&
-    district &&
-    range
+  if (createdAt && toDate && policestation && Status && ComplaintCategory && district && Range
   ) {
     const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: fromDate } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-        { Status: status },
-        { ComplaintCategory: category },
-        { District: district },
-        { Range: range },
+      $or: [{ createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }, { policestation: policestation },
+        { Status: Status}, { ComplaintCategory: ComplaintCategory}, { District: district }, { Range: Range },
       ],
     });
     res.send(complain);
-  } else if (
-    fromDate &&
-    toDate &&
-    policestation &&
-    status &&
-    category &&
-    district
+  } else if ( createdAt && toDate && policestation && Status&& ComplaintCategory && district
   ) {
     const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: fromDate } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-        { Status: status },
-        { ComplaintCategory: category },
-        { District: district },
+      $and: [ { createdAt: { $gt: createdAt, $lt: toDate  } }, { policestation: policestation },
+         { Status: Status }, { ComplaintCategory: ComplaintCategory }, { District: district },
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate && policestation && status && category) {
+  } else if (createdAt && toDate && policestation && Status && ComplaintCategory) {
     const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: fromDate } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-        { Status: status },
-        { ComplaintCategory: category },
+      $and: [ { createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }, { policestation: policestation },
+        { Status: Status }, { ComplaintCategory: ComplaintCategory},
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate && policestation && status) {
+  } else if (createdAt && toDate && policestation && Status) {
     const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: fromDate } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-        { Status: status },
+      $and: [{ createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }, { policestation: policestation },
+        { Status: Status },
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate && policestation) {
+  } else if (createdAt && toDate && policestation) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: fromDate } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
+        { createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } },{ policestation: policestation },
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate) {
+  } else if (createdAt && toDate) {
     const complain = await complainModel.find({
-      $and: [{ createdAt: { $gt: fromDate } }, { createdAt: { $lt: toDate } }],
+      $and: [{ createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }],
     });
     res.send(complain);
   } else {
@@ -217,7 +222,7 @@ complainController.get("/adgpfilter", async (req, res) => {
 // filter for sp compain dashboard
 complainController.get("/spfilter", async (req, res) => {
   const {
-    fromDate,
+    createdAt,
     toDate,
     policestation,
     status,
@@ -227,7 +232,7 @@ complainController.get("/spfilter", async (req, res) => {
   } = req.body;
 
   if (
-    fromDate &&
+    createdAt &&
     toDate &&
     policestation &&
     status &&
@@ -237,7 +242,7 @@ complainController.get("/spfilter", async (req, res) => {
   ) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: fromDate } },
+        { createdAt: { $gt: createdAt } },
         { createdAt: { $lt: toDate } },
         { policestation: policestation },
         { Status: status },
@@ -248,7 +253,7 @@ complainController.get("/spfilter", async (req, res) => {
     });
     res.send(complain);
   } else if (
-    fromDate &&
+    createdAt &&
     toDate &&
     policestation &&
     status &&
@@ -257,7 +262,7 @@ complainController.get("/spfilter", async (req, res) => {
   ) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: fromDate } },
+        { createdAt: { $gt: createdAt } },
         { createdAt: { $lt: toDate } },
         { policestation: policestation },
         { Status: status },
@@ -266,10 +271,10 @@ complainController.get("/spfilter", async (req, res) => {
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate && policestation && status && category) {
+  } else if (createdAt && toDate && policestation && status && category) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: fromDate } },
+        { createdAt: { $gt: createdAt } },
         { createdAt: { $lt: toDate } },
         { policestation: policestation },
         { Status: status },
@@ -277,28 +282,28 @@ complainController.get("/spfilter", async (req, res) => {
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate && policestation && status) {
+  } else if (createdAt && toDate && policestation && status) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: fromDate } },
+        { createdAt: { $gt: createdAt } },
         { createdAt: { $lt: toDate } },
         { policestation: policestation },
         { Status: status },
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate && policestation) {
+  } else if (createdAt && toDate && policestation) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: fromDate } },
+        { createdAt: { $gt: createdAt } },
         { createdAt: { $lt: toDate } },
         { policestation: policestation },
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate) {
+  } else if (createdAt && toDate) {
     const complain = await complainModel.find({
-      $and: [{ createdAt: { $gt: fromDate } }, { createdAt: { $lt: toDate } }],
+      $and: [{ createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }],
     });
     res.send(complain);
   } else {
@@ -309,13 +314,13 @@ complainController.get("/spfilter", async (req, res) => {
 
 // filter for dsp/asp compain dashboard
 complainController.get("/dspfilter", async (req, res) => {
-  const { fromDate, toDate, policestation, status, category, policepost } =
+  const { createdAt, toDate, policestation, status, category, policepost } =
     req.body;
 
-  if (fromDate && toDate && policestation && status && category && policepost) {
+  if (createdAt && toDate && policestation && status && category && policepost) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: fromDate } },
+        { createdAt: { $gt: createdAt } },
         { createdAt: { $lt: toDate } },
         { policestation: policestation },
         { Status: status },
@@ -324,10 +329,10 @@ complainController.get("/dspfilter", async (req, res) => {
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate && policestation && status && category) {
+  } else if (createdAt && toDate && policestation && status && category) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: fromDate } },
+        { createdAt: { $gt: createdAt } },
         { createdAt: { $lt: toDate } },
         { policestation: policestation },
         { Status: status },
@@ -335,28 +340,28 @@ complainController.get("/dspfilter", async (req, res) => {
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate && policestation && status) {
+  } else if (createdAt && toDate && policestation && status) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: fromDate } },
+        { createdAt: { $gt: createdAt } },
         { createdAt: { $lt: toDate } },
         { policestation: policestation },
         { Status: status },
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate && policestation) {
+  } else if (createdAt && toDate && policestation) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: fromDate } },
+        { createdAt: { $gt: createdAt } },
         { createdAt: { $lt: toDate } },
         { policestation: policestation },
       ],
     });
     res.send(complain);
-  } else if (fromDate && toDate) {
+  } else if (createdAt && toDate) {
     const complain = await complainModel.find({
-      $and: [{ createdAt: { $gt: fromDate } }, { createdAt: { $lt: toDate } }],
+      $and: [{ createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }],
     });
     res.send(complain);
   } else {
@@ -367,59 +372,55 @@ complainController.get("/dspfilter", async (req, res) => {
 
 // filter for sho compain dashboard
 complainController.get("/shofilter", async (req, res) => {
-  const { fromDate, toDate, status, category, policepost, io, fir } = req.body;
+  const { complainDate, Status, ComplaintCategory, Markto, io, fir } = req.query;
 
-  if (fromDate && toDate && status && category && policepost) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: fromDate } },
-        { createdAt: { $lt: toDate } },
-        { Status: status },
-        { ComplaintCategory: category },
-        { Designation: policepost },
-        { Markto: io },
-      ],
-    });
-    res.send(complain);
-  } else if (fromDate && toDate && status && category && policepost) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: fromDate } },
-        { createdAt: { $lt: toDate } },
-        { Status: status },
-        { ComplaintCategory: category },
-        { Designation: policepost },
-      ],
-    });
-    res.send(complain);
-  } else if (fromDate && toDate && status && category) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: fromDate } },
-        { createdAt: { $lt: toDate } },
-        { Status: status },
-        { ComplaintCategory: category },
-      ],
-    });
-    res.send(complain);
-  } else if (fromDate && toDate && status) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: fromDate } },
-        { createdAt: { $lt: toDate } },
-        { Status: status },
-      ],
-    });
-    res.send(complain);
-  } else if (fromDate && toDate) {
-    const complain = await complainModel.find({
-      $and: [{ createdAt: { $gt: fromDate } }, { createdAt: { $lt: toDate } }],
-    });
-    res.send(complain);
-  } else {
-    const complain = await complainModel.find();
-    res.send(complain);
+  const filter = {}
+  
+ if(complainDate){
+    filter.complainDate={ $gte: complainDate },
+    filter.complainDate={ $lte: complainDate }
+   } 
+  if (ComplaintCategory) {
+   filter.ComplaintCategory = ComplaintCategory
   }
+  if (Status) {
+   filter.Status = Status
+ }
+ if (fir) {
+  filter.fir = fir
+}
+if (io) {
+  filter.io = io
+}
+if (Status && ComplaintCategory && io) {
+  filter.Status = Status,
+  filter.io = io,
+  filter.ComplaintCategory = ComplaintCategory
+} 
+  if (Status && ComplaintCategory) {
+   filter.Status = Status,
+   filter.ComplaintCategory = ComplaintCategory
+ } 
+ if (Markto) {
+  filter.Markto = Markto
+} 
+if ( ComplaintCategory && Markto) {
+  filter.Markto = Markto,
+  filter.ComplaintCategory = ComplaintCategory
+} 
+if (Status && Markto) {
+  filter.Markto = Markto,
+  filter.Status = Status
+} 
+if (Status && ComplaintCategory && Markto) {
+  filter.Markto = Markto,
+  filter.Status = Status,
+  filter.ComplaintCategory = ComplaintCategory
+} 
+
+ const complain = await complainModel.find(filter);
+
+res.send(complain);
 });
 
 module.exports = complainController;

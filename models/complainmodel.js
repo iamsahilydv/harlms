@@ -33,6 +33,7 @@ const complainSchema = new mongoose.Schema(
     trackingId:{type:String},
     complainDate:{type:String},
     targetDate:{type:String},
+    fir:{type:String},
     uploadpdfcomplaint:[],
     uploadevidence:[]
 
