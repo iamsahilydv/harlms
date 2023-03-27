@@ -26,7 +26,7 @@ const upload = multer({
 complainController.post("/create", upload.single("uploadpdfcomplaint"), async (req, res) => {
   console.log(req.file.filename)
   const {
-    author_id, policerange, Designation, rangeDistrictName, policestation, phoneNumber, ComplainantName,
+    author_id,highPriority, policerange, Designation, rangeDistrictName, policestation, phoneNumber, ComplainantName,
     ComplainantPhoneNumber, alternateNumber, FatherName, Address, Email, State, City, ComplaintCategory, ComplaintShortDescription,
      SectionsofComplaint, Range, SPName, Status, Markto, AddressLine1, Date, Issuedate, trackingId, complainDate, targetDate
   } = req.body;
@@ -37,6 +37,7 @@ complainController.post("/create", upload.single("uploadpdfcomplaint"), async (r
     author_id,
     uploadpdfcomplaint:req.file.filename,
     uploadevidence:req.file.filename,
+    highPriority,
     Designation,
     policerange,
     rangeDistrictName,
@@ -257,8 +258,7 @@ complainController.get("/spfilter", async (req, res) => {
   } else if (createdAt && toDate && policestation && status && category) {
     const complain = await complainModel.find({
       $and: [
-        { createdAt: { $gt: createdAt } },
-        { createdAt: { $lt: toDate } },
+        { createdAt: { $gte: createdAt,$lt: toDate  } },
         { policestation: policestation },
         { Status: status },
         { ComplaintCategory: category },
@@ -359,10 +359,12 @@ complainController.get("/shofilter", async (req, res) => {
 
   const filter = {}
   
- if(complainDate){
-    filter.complainDate={ $gte: complainDate },
-    filter.complainDate={ $lte: complainDate }
-   } 
+  if (complainDate){
+    const startDate = new Date(complainDate);
+    const endDate = new Date(complainDate);
+    endDate.setDate(endDate.getDate() + 1);   // add 1 day to the end date
+    filter.complainDate = { $gte: startDate, $lte: endDate };
+  }
   if (ComplaintCategory) {
    filter.ComplaintCategory = ComplaintCategory
   }
