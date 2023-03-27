@@ -24,7 +24,7 @@ const upload = multer({
 
 //for all complain creation
 complainController.post("/create", upload.single("uploadpdfcomplaint"), async (req, res) => {
-  console.log(req.file.filename)
+  //console.log(req.file.filename)
   const {
     author_id,highPriority, policerange, Designation, rangeDistrictName, policestation, phoneNumber, ComplainantName,
     ComplainantPhoneNumber, alternateNumber, FatherName, Address, Email, State, City, ComplaintCategory, ComplaintShortDescription,
@@ -35,8 +35,8 @@ complainController.post("/create", upload.single("uploadpdfcomplaint"), async (r
 
   const complain = new complainModel({
     author_id,
-    uploadpdfcomplaint:req.file.filename,
-    uploadevidence:req.file.filename,
+    uploadpdfcomplaint: req.file?.filename   ,
+    uploadevidence:req.file?.filename ,
     highPriority,
     Designation,
     policerange,

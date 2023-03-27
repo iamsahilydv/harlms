@@ -22,7 +22,7 @@ const multerStorage = multer.diskStorage({
   });
 
 //for all users creation
-authController.post("/signup",upload.single("ProfilePhoto"), async (req, res) => {
+authController.post("/signup", async (req, res) => {
    
     //console.log(req.file.filename)
     const {email, password,fname,lname,mobile,alternatemobile,policerange,
@@ -41,7 +41,7 @@ authController.post("/signup",upload.single("ProfilePhoto"), async (req, res) =>
             const user = new AuthModel({
                 email,
                 password : hash,
-                ProfilePhoto:req.file.filename,
+                ProfilePhoto,
                 fname,
                 lname,
                 mobile,
