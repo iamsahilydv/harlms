@@ -36,7 +36,11 @@ const complainSchema = new mongoose.Schema(
     fir:{type:String},
     uploadpdfcomplaint:{type:String},
     uploadevidence:{type:String},
-    highPriority: { type: Boolean }
+    highPriority: { type: Boolean },
+    comments:[{
+      type:String,
+      postedBy:{type:String}
+  }],
 
     //uploadpdfcomplaint
     //uploadevidence

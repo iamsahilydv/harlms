@@ -13,6 +13,7 @@ const rangeController=require("./routes/rangeroutes")
 const policeStationController=require("./routes/policstationroutes")
 const categoryController=require("./routes/categoryroute")
 const actController=require("./routes/actroute")
+const commentController=require("./routes/commentroute")
 
 require('dotenv').config()
 
@@ -27,6 +28,7 @@ app.use("/range", rangeController)
 app.use("/policestation", policeStationController)
 app.use("/category",categoryController)
 app.use("/act",actController)
+app.use("/comment", commentController)
 
 
 app.get("/",(req,res)=>{
