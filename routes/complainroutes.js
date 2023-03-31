@@ -113,94 +113,41 @@ complainController.delete("/delete/:id", async (req,res)=>{
 }) 
 
 
-
-complainController.get("/adgpfilter1", async (req, res) => {
-   const { createdAt, toDate, policestation,
-     Status, ComplaintCategory, District, Range, rangeDistrictName } =
-     req.query;
-
-      const filter = {}
-      
-         if (ComplaintCategory) {
-          filter.ComplaintCategory = ComplaintCategory
-         }
-        if (District) {
-           filter.District = District
-         }
-         if (Status) {
-          filter.Status = Status
-        }
-         if(rangeDistrictName){
-            filter.rangeDistrictName = rangeDistrictName
-         }
-         if (Range) {
-          filter.Range = Range
-        }
-        if (policestation) {
-          filter.policestation = policestation
-        }
-         if (rangeDistrictName && ComplaintCategory) {
-          filter.rangeDistrictName = rangeDistrictName,
-          filter.ComplaintCategory = ComplaintCategory
-        }  
-
-        const complain = await complainModel.find(filter);
-
-    res.send(complain);
-  })
-
-
 // filter for adgp compain dashboard
 complainController.get("/adgpfilter", async (req, res) => {
-  const { createdAt, toDate, policestation, Status, ComplaintCategory, district, Range } =
+  const { createdAt, toDate, policestation,
+    Status, ComplaintCategory, District, Range, rangeDistrictName } =
     req.query;
 
-  if (createdAt && toDate && policestation && Status && ComplaintCategory && district && Range
-  ) {
-    const complain = await complainModel.find({
-      $or: [{ createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }, { policestation: policestation },
-        { Status: Status}, { ComplaintCategory: ComplaintCategory}, { District: district }, { Range: Range },
-      ],
-    });
-    res.send(complain);
-  } else if ( createdAt && toDate && policestation && Status&& ComplaintCategory && district
-  ) {
-    const complain = await complainModel.find({
-      $and: [ { createdAt: { $gt: createdAt, $lt: toDate  } }, { policestation: policestation },
-         { Status: Status }, { ComplaintCategory: ComplaintCategory }, { District: district },
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate && policestation && Status && ComplaintCategory) {
-    const complain = await complainModel.find({
-      $and: [ { createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }, { policestation: policestation },
-        { Status: Status }, { ComplaintCategory: ComplaintCategory},
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate && policestation && Status) {
-    const complain = await complainModel.find({
-      $and: [{ createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }, { policestation: policestation },
-        { Status: Status },
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate && policestation) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } },{ policestation: policestation },
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate) {
-    const complain = await complainModel.find({
-      $and: [{ createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }],
-    });
-    res.send(complain);
-  } else {
-    const complain = await complainModel.find();
-    res.send(complain);
-  }
+     const filter = {}
+     
+        if (ComplaintCategory) {
+         filter.ComplaintCategory = ComplaintCategory
+        }
+       if (District) {
+          filter.District = District
+        }
+        if (Status) {
+         filter.Status = Status
+       }
+        if(rangeDistrictName){
+           filter.rangeDistrictName = rangeDistrictName
+        }
+        if (Range) {
+         filter.Range = Range
+       }
+       if (policestation) {
+         filter.policestation = policestation
+       }
+        if (rangeDistrictName && ComplaintCategory) {
+         filter.rangeDistrictName = rangeDistrictName,
+         filter.ComplaintCategory = ComplaintCategory
+       }  
+
+       const complain = await complainModel.find(filter);
+
+   res.send(complain);
+
 });
 
 // filter for sp compain dashboard
