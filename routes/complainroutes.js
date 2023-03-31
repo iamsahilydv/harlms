@@ -152,8 +152,8 @@ complainController.get("/adgpfilter1", async (req, res) => {
 
 // filter for adgp compain dashboard
 complainController.get("/adgpfilter", async (req, res) => {
-  // const { createdAt, toDate, policestation, Status, ComplaintCategory, district, Range } =
-  //   req.query;
+  const { createdAt, toDate, policestation, Status, ComplaintCategory, district, Range } =
+    req.query;
 
   if (createdAt && toDate && policestation && Status && ComplaintCategory && district && Range
   ) {
@@ -298,76 +298,38 @@ complainController.get("/spfilter", async (req, res) => {
 // filter for dsp/asp compain dashboard
 complainController.get("/dspfilter", async (req, res) => {
   const { createdAt, toDate, policestation, status, category, policepost } =
-    req.body;
-
-  if (createdAt && toDate && policestation && status && category && policepost) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: createdAt } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-        { Status: status },
-        { ComplaintCategory: category },
-        { Designation: policepost },
-      ],
-    });
+    req.query;
+    const filter = {}
+  
+    
+    const complain = await complainModel.find(filter);
     res.send(complain);
-  } else if (createdAt && toDate && policestation && status && category) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: createdAt } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-        { Status: status },
-        { ComplaintCategory: category },
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate && policestation && status) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: createdAt } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-        { Status: status },
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate && policestation) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: createdAt } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate) {
-    const complain = await complainModel.find({
-      $and: [{ createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }],
-    });
-    res.send(complain);
-  } else {
-    const complain = await complainModel.find();
-    res.send(complain);
-  }
+  
 });
 
 // filter for sho compain dashboard
 complainController.get("/shofilter", async (req, res) => {
   const { complainDate, Status, ComplaintCategory, Markto, io, fir } = req.query;
 
+
   const filter = {}
-  
   if (complainDate){
     const startDate = new Date(complainDate);
     const endDate = new Date(complainDate);
-    endDate.setDate(endDate.getDate() + 1);   // add 1 day to the end date
+    endDate.setDate(endDate.getDate() + 7);   // add 7 day to the end date
     filter.complainDate = { $gte: startDate, $lte: endDate };
   }
   if (ComplaintCategory) {
    filter.ComplaintCategory = ComplaintCategory
   }
+  if (ComplaintCategory && complainDate) {
+    filter.ComplaintCategory = ComplaintCategory
+    
+    const startDate = new Date(complainDate);
+    const endDate = new Date(complainDate);
+    endDate.setDate(endDate.getDate() + 3);   // add 3 day to the end date
+    filter.complainDate = { $gte: startDate, $lte: endDate };
+   }
   if (Status) {
    filter.Status = Status
  }
@@ -377,6 +339,9 @@ complainController.get("/shofilter", async (req, res) => {
 if (io) {
   filter.io = io
 }
+if (Markto) {
+  filter.Markto = Markto
+} 
 if (Status && ComplaintCategory && io) {
   filter.Status = Status,
   filter.io = io,
@@ -386,9 +351,7 @@ if (Status && ComplaintCategory && io) {
    filter.Status = Status,
    filter.ComplaintCategory = ComplaintCategory
  } 
- if (Markto) {
-  filter.Markto = Markto
-} 
+ 
 if ( ComplaintCategory && Markto) {
   filter.Markto = Markto,
   filter.ComplaintCategory = ComplaintCategory
