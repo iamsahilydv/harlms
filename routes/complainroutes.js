@@ -115,34 +115,76 @@ complainController.delete("/delete/:id", async (req,res)=>{
 
 // filter for adgp compain dashboard
 complainController.get("/adgpfilter", async (req, res) => {
-  const { createdAt, toDate, policestation,
-    Status, ComplaintCategory, District, Range, rangeDistrictName } =
-    req.query;
+  const { fromdate, toDate, policestation,
+    Status, ComplaintCategory, District, Range, rangeDistrictName } = req.query;
 
      const filter = {}
      
+  if (fromdate){
+       // add 7 day to the end date
+    filter.complainDate = { $gte: fromdate};
+  }
+  if (fromdate  && toDate){
+       // add 7 day to the end date
+    filter.complainDate = { $gte: fromdate, $lte: toDate };
+  }
+     
+
         if (ComplaintCategory) {
-         filter.ComplaintCategory = ComplaintCategory
-        }
-       if (District) {
+          filter.ComplaintCategory = ComplaintCategory
+         }
+
+         if (ComplaintCategory && fromdate  && toDate) {
+          filter.ComplaintCategory = ComplaintCategory,
+          filter.complainDate = { $gte: fromdate, $lte: toDate };
+         }
+        if (District) {
           filter.District = District
         }
-        if (Status) {
-         filter.Status = Status
-       }
+        if (District && fromdate  && toDate) {
+          filter.District = District,
+          filter.complainDate = { $gte: fromdate, $lte: toDate };
+        }
+
+       if (Status) {
+        filter.Status = Status
+      }
+      if (Status && fromdate  && toDate) {
+        filter.Status = Status,
+        filter.complainDate = { $gte: fromdate, $lte: toDate };
+      }
+      
         if(rangeDistrictName){
            filter.rangeDistrictName = rangeDistrictName
         }
+
+        if(rangeDistrictName && fromdate  && toDate){
+          filter.rangeDistrictName = rangeDistrictName,
+          filter.complainDate = { $gte: fromdate, $lte: toDate };
+       }
         if (Range) {
          filter.Range = Range
        }
+       if (Range && fromdate  && toDate) {
+        filter.Range = Range,
+        filter.complainDate = { $gte: fromdate, $lte: toDate }
+      }
        if (policestation) {
          filter.policestation = policestation
        }
-        if (rangeDistrictName && ComplaintCategory) {
+       if (policestation && fromdate  && toDate) {
+        filter.policestation = policestation,
+        filter.complainDate = { $gte: fromdate, $lte: toDate }
+      }
+        if (rangeDistrictName && ComplaintCategory ) {
          filter.rangeDistrictName = rangeDistrictName,
          filter.ComplaintCategory = ComplaintCategory
        }  
+       if (rangeDistrictName && ComplaintCategory && fromdate  && toDate) {
+        filter.rangeDistrictName = rangeDistrictName,
+        filter.ComplaintCategory = ComplaintCategory,
+        filter.complainDate = { $gte: fromdate, $lte: toDate }
+      }
 
        const complain = await complainModel.find(filter);
 
@@ -153,102 +195,112 @@ complainController.get("/adgpfilter", async (req, res) => {
 // filter for sp compain dashboard
 complainController.get("/spfilter", async (req, res) => {
   const {
-    createdAt,
-    toDate,
-    policestation,
-    status,
-    category,
-    district,
-    policepost,
-  } = req.body;
+    fromdate, toDate, policestation, Status, ComplaintCategory, rangeDistrictName, Designation} = req.query;
 
-  if (
-    createdAt &&
-    toDate &&
-    policestation &&
-    status &&
-    category &&
-    district &&
-    policepost
-  ) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: createdAt } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-        { Status: status },
-        { ComplaintCategory: category },
-        { District: district },
-        { Designation: policepost },
-      ],
-    });
-    res.send(complain);
-  } else if (
-    createdAt &&
-    toDate &&
-    policestation &&
-    status &&
-    category &&
-    district
-  ) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: createdAt } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-        { Status: status },
-        { ComplaintCategory: category },
-        { District: district },
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate && policestation && status && category) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gte: createdAt,$lt: toDate  } },
-        { policestation: policestation },
-        { Status: status },
-        { ComplaintCategory: category },
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate && policestation && status) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: createdAt } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-        { Status: status },
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate && policestation) {
-    const complain = await complainModel.find({
-      $and: [
-        { createdAt: { $gt: createdAt } },
-        { createdAt: { $lt: toDate } },
-        { policestation: policestation },
-      ],
-    });
-    res.send(complain);
-  } else if (createdAt && toDate) {
-    const complain = await complainModel.find({
-      $and: [{ createdAt: { $gt: createdAt } }, { createdAt: { $lt: toDate } }],
-    });
-    res.send(complain);
-  } else {
-    const complain = await complainModel.find();
-    res.send(complain);
+  const filter = {}
+     
+  if (fromdate){
+       // add 7 day to the end date
+    filter.complainDate = { $gte: fromdate};
   }
+  if (fromdate  && toDate){
+       // add 7 day to the end date
+    filter.complainDate = { $gte: fromdate, $lte: toDate };
+  }
+     
+        if (ComplaintCategory) {
+          filter.ComplaintCategory = ComplaintCategory
+         }
+
+         if (ComplaintCategory && fromdate  && toDate) {
+          filter.ComplaintCategory = ComplaintCategory,
+          filter.complainDate = { $gte: fromdate, $lte: toDate };
+         }
+        if (Designation) {
+          filter.Designation = Designation
+        }
+        if (Designation && fromdate  && toDate) {
+          filter.Designation = Designation,
+          filter.complainDate = { $gte: fromdate, $lte: toDate };
+        }
+
+       if (Status) {
+        filter.Status = Status
+      }
+      if (Status && fromdate  && toDate) {
+        filter.Status = Status,
+        filter.complainDate = { $gte: fromdate, $lte: toDate };
+      }
+      
+       if (policestation) {
+         filter.policestation = policestation
+       }
+       if (policestation && fromdate  && toDate) {
+        filter.policestation = policestation,
+        filter.complainDate = { $gte: fromdate, $lte: toDate }
+      }
+        if (rangeDistrictName && ComplaintCategory ) {
+         filter.rangeDistrictName = rangeDistrictName,
+         filter.ComplaintCategory = ComplaintCategory
+       }  
+       if (rangeDistrictName && ComplaintCategory && fromdate  && toDate) {
+        filter.rangeDistrictName = rangeDistrictName,
+        filter.ComplaintCategory = ComplaintCategory,
+        filter.complainDate = { $gte: fromdate, $lte: toDate }
+      }
+  
+    
+    const complain = await complainModel.find(filter);
+    res.send(complain);
 });
 
 // filter for dsp/asp compain dashboard
 complainController.get("/dspfilter", async (req, res) => {
-  const { createdAt, toDate, policestation, status, category, policepost } =
-    req.query;
-    const filter = {}
+  const { fromdate, toDate, policestation, Status, ComplaintCategory, Designation } = req.query;
   
-    
+    const filter = {}
+     
+  if (fromdate){
+       // add 7 day to the end date
+    filter.complainDate = { $gte: fromdate};
+  }
+  if (fromdate  && toDate){
+       // add 7 day to the end date
+    filter.complainDate = { $gte: fromdate, $lte: toDate };
+  }
+     
+        if (ComplaintCategory) {
+          filter.ComplaintCategory = ComplaintCategory
+         }
+
+         if (ComplaintCategory && fromdate  && toDate) {
+          filter.ComplaintCategory = ComplaintCategory,
+          filter.complainDate = { $gte: fromdate, $lte: toDate };
+         }
+        if (Designation) {
+          filter.Designation = Designation
+        }
+        if (Designation && fromdate  && toDate) {
+          filter.Designation = Designation,
+          filter.complainDate = { $gte: fromdate, $lte: toDate };
+        }
+
+       if (Status) {
+        filter.Status = Status
+      }
+      if (Status && fromdate  && toDate) {
+        filter.Status = Status,
+        filter.complainDate = { $gte: fromdate, $lte: toDate };
+      }
+      
+       if (policestation) {
+         filter.policestation = policestation
+       }
+       if (policestation && fromdate  && toDate) {
+        filter.policestation = policestation,
+        filter.complainDate = { $gte: fromdate, $lte: toDate }
+      }
+            
     const complain = await complainModel.find(filter);
     res.send(complain);
   
@@ -256,26 +308,25 @@ complainController.get("/dspfilter", async (req, res) => {
 
 // filter for sho compain dashboard
 complainController.get("/shofilter", async (req, res) => {
-  const { complainDate, Status, ComplaintCategory, Markto, io, fir } = req.query;
+  const { fromdate,toDate, Status, ComplaintCategory, Markto, io, fir } = req.query;
 
 
   const filter = {}
-  if (complainDate){
-    const startDate = new Date(complainDate);
-    const endDate = new Date(complainDate);
-    endDate.setDate(endDate.getDate() + 7);   // add 7 day to the end date
-    filter.complainDate = { $gte: startDate, $lte: endDate };
+  if (fromdate){
+       // add 7 day to the end date
+    filter.complainDate = { $gte: fromdate};
+  }
+  if (fromdate  && toDate){
+       // add 7 day to the end date
+    filter.complainDate = { $gte: fromdate, $lte: toDate };
   }
   if (ComplaintCategory) {
    filter.ComplaintCategory = ComplaintCategory
   }
-  if (ComplaintCategory && complainDate) {
+  if (ComplaintCategory && fromdate  && toDate) {
     filter.ComplaintCategory = ComplaintCategory
     
-    const startDate = new Date(complainDate);
-    const endDate = new Date(complainDate);
-    endDate.setDate(endDate.getDate() + 3);   // add 3 day to the end date
-    filter.complainDate = { $gte: startDate, $lte: endDate };
+    filter.complainDate = { $gte: fromdate, $lte: toDate };
    }
   if (Status) {
    filter.Status = Status
