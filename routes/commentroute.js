@@ -6,10 +6,10 @@ const commentModel = require("../models/commentModel");
 const commentController = express.Router();
 
 commentController.post("/addcomment", async (req, res) => {
-    const { author_id, complain_id,authorName, commentData } = req.body;
+    const { author_id, complain_id,authorName, commentData, Designation } = req.body;
   
     const comment = new commentModel({
-        author_id, complain_id,authorName, commentData
+        author_id, complain_id,authorName, commentData, Designation
     });
   
     await comment.save();

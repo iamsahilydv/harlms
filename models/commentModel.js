@@ -12,7 +12,8 @@ const commentSchema= new mongoose.Schema({
         required: true,
       },
     authorName:{type:String,required: true,},
-    commentData:{type:String,required: true,}  
+    commentData:{type:String,required: true,},
+    Designation:{type:String,required: true,} 
 })
 
 const commentModel=mongoose.model("comment",commentSchema)
