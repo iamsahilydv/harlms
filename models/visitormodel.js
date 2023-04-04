@@ -5,7 +5,10 @@ const visitorSchema= new mongoose.Schema({
    complainantNumber:{type:Number, required: true},
    problem:{type:String, required: true},
    orderbyadgp:{type:String, required: true},
-   markto:{type:String, required: true}
+   markto:{type:String, required: true},
+   FirNumber:{type:String},
+   complainClerk:{type:String},
+   PhoneNumber:{type:String}
 })
 
 const visitorModel=mongoose.model("visitor",visitorSchema)

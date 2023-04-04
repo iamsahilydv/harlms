@@ -14,7 +14,10 @@ visitorController.post("/addvisitor", async (req, res) => {
    complainantNumber,
    problem,
    orderbyadgp,
-   markto
+   markto,
+   FirNumber,
+   complainClerk,
+   PhoneNumber
   });
 
   await visitor.save();
