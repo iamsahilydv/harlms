@@ -6,7 +6,7 @@ const visitorModel = require("../models/visitormodel");
 const visitorController = express.Router();
 
 visitorController.post("/addvisitor", async (req, res) => {
-  const { complainantName,complainantNumber, problem, orderbyadgp, markto } = req.body;
+  const { complainantName,complainantNumber, problem, orderbyadgp, markto,FirNumber, complainClerk, PhoneNumber } = req.body;
 
   
   const visitor = new visitorModel({
